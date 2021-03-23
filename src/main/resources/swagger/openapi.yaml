@@ -1,0 +1,236 @@
+openapi: 3.0.1
+info:
+  title: Customers API
+  description: "Customers data management api"
+  version: 1.0.0
+paths:
+  /customers:
+    post:
+      tags:
+      - Customer
+      summary: "Creates a new customer"
+      requestBody:
+        description: "Customer data"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CUSTOMER'
+        required: true
+      responses:
+        201:
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                description: Location of created resource
+                example: http://localhost:8080/customers/472ffa20-8791-4018-9906-a82cbf7e58e7
+        412:
+          description: Pre-Condition Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+    get:
+      tags:
+      - Customer
+      summary: "return customers"
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: document
+          schema:
+            type: string
+        - in: query
+          name: birthdate
+          schema:
+            type: string
+            format: date
+      responses:
+        200:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CUSTOMER_RESPONSE'
+            Location:
+              schema:
+                type: string
+                description: Location of created resource
+                example: http://localhost:8080/customers/472ffa20-8791-4018-9906-a82cbf7e58e7
+        412:
+          description: Pre-Condition Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+  '/customers/{customerId}':
+    patch:
+      tags:
+      - Customer
+      summary: "Update partially a customerr"
+      parameters:
+        - in: path
+          name: customerId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: "Customer data"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CUSTOMER'
+        required: true
+      responses:
+        204:
+          description: No Content
+          headers:
+            Location:
+              schema:
+                type: string
+                description: Location of created resource
+                example: http://localhost:8080/customers/472ffa20-8791-4018-9906-a82cbf7e58e7
+        412:
+          description: Pre-Condition Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+    put:
+      tags:
+      - Customer
+      summary: "Update a customerr"
+      parameters:
+        - in: path
+          name: customerId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: "Customer data"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CUSTOMER'
+        required: true
+      responses:
+        204:
+          description: No Content
+          headers:
+            Location:
+              schema:
+                type: string
+                description: Location of created resource
+                example: http://localhost:8080/customers/472ffa20-8791-4018-9906-a82cbf7e58e7
+        412:
+          description: Pre-Condition Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+components:
+  schemas:
+    CUSTOMER_RESPONSE:
+      type: array
+      items:
+        $ref: '#/components/schemas/GET_CUSTOMER'
+    GET_CUSTOMER:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Customer identifier
+        name:
+          type: string
+          description: Customer name
+        document:
+          type: string
+          description: Customer document
+        birthdate:
+          type: string
+          format: date
+          description: Customer birthdate
+        age:
+          type: integer
+          description: Customer Age
+    CUSTOMER:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Customer name
+        document:
+          type: string
+          description: Customer document
+        birthdate:
+          type: string
+          format: date
+          description: Customer birthdate
